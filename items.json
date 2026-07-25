@@ -1,0 +1,69 @@
+{
+    "Veteran's Cane": {
+        "type": "Wonderous Item",
+        "rarity": "Common",
+        "attunement": "(requires attunement)",
+        "requirements": "Veteran",
+        "properties": [
+            "When you grasp this walking cane and use a bonus action to speak the command word, it transforms into an ordinary longsword and ceases to be magical."
+        ]
+    },
+
+
+
+    "Veteran's Cane": {
+
+        "type": "Armor",
+
+        "rarity": "Rare",
+
+        "attunement": {
+            "required": false,
+            "who": ""
+        },
+
+        "summary": [
+            "Can transform into a melee weapon",
+            "Gains additional properties when used by a veteran"
+        ],
+
+        "notes": "Compact summary only. Full item description should be checked in the source material."
+
+    },
+
+
+
+    "Zephyr Leather Armor": {
+
+        "type": "Armor",
+
+        "rarity": "Rare",
+
+        "attunement": {
+            "required": true,
+            "who": ""
+        },
+
+        "effects": [
+            "Advantage on Dexterity (Acrobatics) checks",
+            "Advantage on Dexterity saving throws"
+        ],
+
+        "abilities": [
+            {
+                "name": "Invoking the Rune",
+                "action": "Action",
+                "effect": "Cast Wind Wall (DC 15)",
+                "recharge": "Dawn"
+            }
+        ],
+
+        "variants": [
+            "Leather Armor",
+            "Leather Corslet",
+            "Leather Shirt",
+            "Padded Armor",
+            "Studded Leather Armor"
+        ]
+    }
+}
