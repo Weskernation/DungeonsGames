@@ -1,4 +1,4 @@
-const ENABLE_ITEM_TOOLTIPS = true;
+const ENABLE_ITEM_TOOLTIPS = false;
 
 
 if (ENABLE_ITEM_TOOLTIPS) {
