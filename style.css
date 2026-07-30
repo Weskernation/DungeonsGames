@@ -283,6 +283,14 @@ body {
         min-width: 900px;
     }
 
+    .floating-menu {
+        overflow-x: auto;
+    }
+
+    .loot-tier-content {
+        overflow-x: auto;
+    }
+
 }
 
 }
