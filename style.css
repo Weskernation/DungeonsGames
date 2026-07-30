@@ -293,6 +293,7 @@ body {
 
     .loot-info-panel {
         overflow-x: auto;
+        min-width: 100;
     }
 
 }
