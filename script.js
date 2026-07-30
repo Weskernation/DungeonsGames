@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 A collaborative creation by David, Johanna, Robin and Wesley.
             </div>
             <div>
-                Website design & development by Wesker.
+                Website design & development by Wesley.
             </div>
             <small class="tooltip">images used<span class="tooltip-text">
                 <p>Images used in this page are not owned by these persons.</p>
