@@ -273,31 +273,6 @@ body {
     grid-auto-flow: row;
     }
 
-@media (max-width: 899px) {
-
-    .progression {
-        overflow-x: auto;
-    }
-
-    .tiers {
-        min-width: 900px;
-    }
-
-    .floating-menu {
-        overflow-x: auto;
-    }
-
-    .loot-tier-content {
-        overflow-x: auto;
-    }
-
-    .loot-info-panel {
-        overflow-x: auto;
-        min-width: 50;
-    }
-
-}
-
 }
 
 .tier-c .progression-grid {
@@ -329,6 +304,8 @@ body {
     flex-shrink: 0;
     padding-left: 15px;
     background-color: rgba(247,247,247,0.95);
+    align-self: flex-start;
+    box-sizing: border-box;
 
     font-size: 0.85em;
 }
@@ -350,6 +327,7 @@ body {
     text-align: left;
     padding: 1px;
 }
+
 
 .info h3 {
     display: block;
