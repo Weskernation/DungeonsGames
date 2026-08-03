@@ -230,6 +230,7 @@
 
 .item-description.mobile-open{
 
+    visibility: hidden;
     position:fixed;
 
     top: max(20px, env(safe-area-inset-top));
