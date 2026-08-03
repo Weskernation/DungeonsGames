@@ -199,7 +199,7 @@ body {
     align-items: center;
     justify-content: center;
 
-    font-weight: 100;
+    /* font-weight: 100; */
     font-size: clamp(0.50rem, 0.65vw, 0.90rem);
     line-height: 1.1;
 }
