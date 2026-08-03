@@ -134,6 +134,8 @@ body {
     flex-direction: row;
     gap: clamp(5px, 2vw, 50px);
     z-index: 500;
+    max-width: calc(100% - 140px);
+    flex-wrap: wrap;
 }
 
 .floating-menu button {
@@ -1074,4 +1076,17 @@ margin-top: 40px;
         padding: 15px;
     }
 
+    .floating-menu {
+        max-width: calc(100% - 140px);
+        flex-wrap;
+        gap: clamp(3px, 1.5vw, 15px)
+    }
+
+    .floating-menu button {
+        gap: (36px,8vw,55px);
+    }
+
+    .credits-container {
+        position: fixed
+    }
 }
