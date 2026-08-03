@@ -1,5 +1,11 @@
 const ENABLE_ITEM_TOOLTIPS = true;
 
+const MOBILE_WIDTH = 900;
+
+function isMobileTooltip() {
+    return window.innerWidth <= MOBILE_WIDTH;
+}
+
 
 if (ENABLE_ITEM_TOOLTIPS) {
 
@@ -117,121 +123,153 @@ if (ENABLE_ITEM_TOOLTIPS) {
 
                 `;
 
-                cell.appendChild(tooltip);
+                    cell.appendChild(tooltip);
+
+                        // Dit is de tooltip voor <= 900px schermen/mobiel)
+                        if (isMobileTooltip()) {
+
+                            cell.addEventListener("click", (event) => {
+
+                                event.stopPropagation();
+
+                                // Sluit eventueel al geopende tooltip
+                                document.querySelectorAll(".item-description.mobile-open")
+                                    .forEach(t => t.classList.remove("mobile-open"));
+
+                                document.querySelectorAll(".tooltip-overlay")
+                                    .forEach(o => o.remove());
+
+                                // Achtergrond
+                                const overlay = document.createElement("div");
+                                overlay.className = "tooltip-overlay";
+
+                                overlay.addEventListener("click", () => {
+                                    tooltip.classList.remove("mobile-open");
+                                    overlay.remove();
+                                });
+
+                                document.body.appendChild(overlay);
+
+                                tooltip.classList.add("mobile-open");
+
+                            });
+                        // Dit is de tooltip voor <= 900px schermen/mobiel) EINDE
+
+        
+
+                            cell.addEventListener("mouseenter", () => {
+
+                                tooltip.style.visibility = "hidden";
+                                tooltip.style.display = "block";
+
+                                const tooltipRect = tooltip.getBoundingClientRect();
 
 
-                cell.addEventListener("mouseenter", () => {
+                                if (tooltipRect.right > window.innerWidth) {
 
-                    tooltip.style.visibility = "hidden";
-                    tooltip.style.display = "block";
+                                    tooltip.style.left = "auto";
+                                    tooltip.style.right = "100%";
+                                    tooltip.style.marginLeft = "0";
+                                    tooltip.style.marginRight = "10px";
 
-                    const tooltipRect = tooltip.getBoundingClientRect();
-
-
-                    if (tooltipRect.right > window.innerWidth) {
-
-                        tooltip.style.left = "auto";
-                        tooltip.style.right = "100%";
-                        tooltip.style.marginLeft = "0";
-                        tooltip.style.marginRight = "10px";
-
-                    }
+                                }
 
 
-                    if (tooltipRect.bottom > window.innerHeight) {
+                                if (tooltipRect.bottom > window.innerHeight) {
 
-                        tooltip.style.top = "auto";
-                        tooltip.style.bottom = "0";
+                                    tooltip.style.top = "auto";
+                                    tooltip.style.bottom = "0";
 
-                    }
-
-
-                    tooltip.style.visibility = "";
-
-                });
+                                }
 
 
-                cell.addEventListener("mouseleave", () => {
+                                tooltip.style.visibility = "";
 
-                    tooltip.style.left = "";
-                    tooltip.style.right = "";
-                    tooltip.style.top = "";
-                    tooltip.style.bottom = "";
-                    tooltip.style.marginLeft = "";
-                    tooltip.style.marginRight = "";
+                            });
 
-                });
 
+                            cell.addEventListener("mouseleave", () => {
+
+                                tooltip.style.left = "";
+                                tooltip.style.right = "";
+                                tooltip.style.top = "";
+                                tooltip.style.bottom = "";
+                                tooltip.style.marginLeft = "";
+                                tooltip.style.marginRight = "";
+
+                            });
+                        }
+            
             });
 
         });
-const tooltipButton = document.getElementById("toggle-item-tooltips");
+    const tooltipButton = document.getElementById("toggle-item-tooltips");
 
-if (tooltipButton) {
+        if (tooltipButton) {
 
-    tooltipButton.style.display = "block";
+            tooltipButton.style.display = "block";
 
-    let tooltipMode = 0;
-
-
-        tooltipButton.addEventListener("click", () => {
+            let tooltipMode = 0;
 
 
-            tooltipMode++;
+                tooltipButton.addEventListener("click", () => {
 
 
-            if (tooltipMode > 2) {
-                tooltipMode = 0;
-            }
+                    tooltipMode++;
 
 
-            // Alles eerst resetten
-            document.body.classList.remove(
-                "item-tooltips-enabled",
-                "item-tooltips-disabled"
-            );
-
-            document.querySelectorAll(".item-description").forEach(tooltip => {
-                tooltip.classList.remove("parchment");
-            });
+                    if (tooltipMode > 2) {
+                        tooltipMode = 0;
+                    }
 
 
-            // 0 = OFF
-            if (tooltipMode === 0) {
+                    // Alles eerst resetten
+                    document.body.classList.remove(
+                        "item-tooltips-enabled",
+                        "item-tooltips-disabled"
+                    );
 
-                document.body.classList.add("item-tooltips-disabled");
+                    document.querySelectorAll(".item-description").forEach(tooltip => {
+                        tooltip.classList.remove("parchment");
+                    });
 
-                tooltipButton.textContent = "Loot Tooltips: OFF";
-            }
 
-            // 1 = ON + parchment
-            if (tooltipMode === 1) {
+                    // 0 = OFF
+                    if (tooltipMode === 0) {
 
-                document.body.classList.add("item-tooltips-enabled");
+                        document.body.classList.add("item-tooltips-disabled");
 
-                document.querySelectorAll(".item-description").forEach(tooltip => {
-                    tooltip.classList.add("parchment");
+                        tooltipButton.textContent = "Loot Tooltips: OFF";
+                    }
+
+                    // 1 = ON + parchment
+                    if (tooltipMode === 1) {
+
+                        document.body.classList.add("item-tooltips-enabled");
+
+                        document.querySelectorAll(".item-description").forEach(tooltip => {
+                            tooltip.classList.add("parchment");
+                        });
+
+                        tooltipButton.textContent = "Loot Tooltips: ON";
+                        tooltipButton.classList.add("parchment-mode");
+                    }
+
+                    // 2 = ON standaard
+                    if (tooltipMode === 2) {
+
+                        document.body.classList.add("item-tooltips-enabled");
+
+                        tooltipButton.textContent = "Loot Tooltips: ON";
+                        tooltipButton.classList.remove("parchment-mode");
+                    }
                 });
 
-                tooltipButton.textContent = "Loot Tooltips: ON";
-                tooltipButton.classList.add("parchment-mode");
-            }
-
-            // 2 = ON standaard
-            if (tooltipMode === 2) {
-
-                document.body.classList.add("item-tooltips-enabled");
-
-                tooltipButton.textContent = "Loot Tooltips: ON";
-                tooltipButton.classList.remove("parchment-mode");
-            }
-        });
-
-}
-const tooltipSections = document.querySelectorAll(
+        }
+    const tooltipSections = document.querySelectorAll(
     // Vanaf waar wordt de tooltip ON/OFF zichtbaar
     "#progression-title, #loot-table"
-);
+    );
 
 if (tooltipButton && tooltipSections.length) {
 
@@ -259,9 +297,9 @@ if (tooltipButton && tooltipSections.length) {
         }
 
 
-    }, {
+    },  {
         rootMargin: "0px 0px 0px 0px"
-    });
+        });
 
 
     tooltipSections.forEach(section => {
