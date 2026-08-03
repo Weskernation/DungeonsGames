@@ -232,18 +232,35 @@
 
     position:fixed;
 
-    top: max(20px, env(safe-area-inset-top));
-    right: max(20px, env(safe-area-inset-right));
-    bottom: max(20px, env(safe-area-inset-bottom));
-    left: max(20px, env(safe-area-inset-left));
+    top:max(20px, env(safe-area-inset-top));
+    right:max(20px, env(safe-area-inset-right));
+    bottom:max(20px, env(safe-area-inset-bottom));
+    left:max(20px, env(safe-area-inset-left));
+
+    margin:0;
+    transform:none;
 
     width:auto;
     max-width:none;
-    max-height:none;
+    height:auto;
 
     overflow:auto;
 
     z-index:5000;
+}
+
+@media (max-width:900px){
+
+    .item-tooltips-enabled .loot-item:hover .item-description{
+        opacity:0;
+        visibility:hidden;
+    }
+
+    .item-description.mobile-open{
+        opacity:1 !important;
+        visibility:visible !important;
+    }
+
 }
 
 .tooltip-overlay{
