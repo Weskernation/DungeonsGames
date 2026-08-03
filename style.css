@@ -1088,6 +1088,12 @@ margin-top: 40px;
 
     .credits-container {
         position: fixed;
+        visibility: hidden;
         
     }
+
+    .tiers {
+    min-width: 100%;
+    width: max-content;
+}
 }
