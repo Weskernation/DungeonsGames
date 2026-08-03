@@ -1077,7 +1077,7 @@ margin-top: 40px;
     }
 
     .floating-menu {
-        max-width: calc(100% - 70px);
+        max-width: calc(100% - 0px);
         flex-wrap: wrap;
         gap: clamp(3px, 1.5vw, 15px);
     }
