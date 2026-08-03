@@ -38,6 +38,10 @@ if (ENABLE_ITEM_TOOLTIPS) {
                     return;
                 }
 
+                if (!item) {
+                    return;
+                }
+
                 const tooltip = document.createElement("div");
 
                 tooltip.className = "item-description";
@@ -121,37 +125,44 @@ if (ENABLE_ITEM_TOOLTIPS) {
                     }
 
                 `;
-                document.body.appendChild(tooltip);
 
-                    cell.addEventListener("click", (event) => {
+                    cell.appendChild(tooltip);
+
+                        // Dit is de tooltip voor <= 900px schermen/mobiel)
 
                         if (!tooltipsEnabled()) return;
-                        if (!isMobileTooltip()) return;
+                        if (isMobileTooltip()) {
 
-                        event.preventDefault();
-                        event.stopPropagation();
+                                e.preventDefault();
+                                e.stopPropagation();
 
-                        // Sluit eventueel al geopende tooltip
-                        document.querySelectorAll(".item-description.mobile-open")
-                            .forEach(t => t.classList.remove("mobile-open"));
+                            cell.addEventListener("click", (event) => {
 
-                        document.querySelectorAll(".tooltip-overlay")
-                            .forEach(o => o.remove());
+                        
 
-                        // Achtergrond
-                        const overlay = document.createElement("div");
-                        overlay.className = "tooltip-overlay";
+                                event.stopPropagation();
 
-                        overlay.addEventListener("click", () => {
-                            tooltip.classList.remove("mobile-open");
-                            overlay.remove();
-                        });
+                                // Sluit eventueel al geopende tooltip
+                                document.querySelectorAll(".item-description.mobile-open")
+                                    .forEach(t => t.classList.remove("mobile-open"));
 
-                        document.body.appendChild(overlay);
+                                document.querySelectorAll(".tooltip-overlay")
+                                    .forEach(o => o.remove());
 
-                        tooltip.classList.add("mobile-open");
+                                // Achtergrond
+                                const overlay = document.createElement("div");
+                                overlay.className = "tooltip-overlay";
 
-                    });
+                                overlay.addEventListener("click", () => {
+                                    tooltip.classList.remove("mobile-open");
+                                    overlay.remove();
+                                });
+
+                                document.body.appendChild(overlay);
+
+                                tooltip.classList.add("mobile-open");
+
+                            });
                         // Dit is de tooltip voor <= 900px schermen/mobiel) EINDE
 
         
@@ -197,9 +208,11 @@ if (ENABLE_ITEM_TOOLTIPS) {
                                 tooltip.style.marginRight = "";
 
                             });
-                        
+                        }
             
             });
+
+        });
     const tooltipButton = document.getElementById("toggle-item-tooltips");
 
         if (tooltipButton) {
@@ -268,52 +281,52 @@ if (ENABLE_ITEM_TOOLTIPS) {
     "#progression-title, #loot-table"
     );
 
-    if (tooltipButton && tooltipSections.length) {
+if (tooltipButton && tooltipSections.length) {
 
-        let visibleSections = new Set();
+    let visibleSections = new Set();
 
-        const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
 
-            entries.forEach(entry => {
+        entries.forEach(entry => {
 
-                if (entry.isIntersecting) {
-                    visibleSections.add(entry.target);
-                } 
-                else {
-                    visibleSections.delete(entry.target);
-                }
-
-            });
-
-
-            if (visibleSections.size > 0) {
-                tooltipButton.parentElement.classList.add("visible");
+            if (entry.isIntersecting) {
+                visibleSections.add(entry.target);
             } 
             else {
-                tooltipButton.parentElement.classList.remove("visible");
+                visibleSections.delete(entry.target);
             }
 
-
-        },  {
-            rootMargin: "0px 0px 0px 0px"
-            });
-
-
-        tooltipSections.forEach(section => {
-            observer.observe(section);
         });
 
 
-            } else {
+        if (visibleSections.size > 0) {
+            tooltipButton.parentElement.classList.add("visible");
+        } 
+        else {
+            tooltipButton.parentElement.classList.remove("visible");
+        }
 
-                const tooltipButton =
-                    document.getElementById("toggle-item-tooltips");
 
-                if (tooltipButton) {
-                    tooltipButton.style.display = "none";
-                }
+    },  {
+        rootMargin: "0px 0px 0px 0px"
+        });
 
-                document.body.classList.add(
-                    "item-tooltips-disabled"
-                );
+
+    tooltipSections.forEach(section => {
+        observer.observe(section);
+    });
+
+}
+
+
+        } else {
+        const tooltipButton = document.getElementById("toggle-item-tooltips");
+
+        if (tooltipButton) {
+
+            tooltipButton.style.display = "none";
+
+        }
+    document.body.classList.add("item-tooltips-disabled");
+
 }
