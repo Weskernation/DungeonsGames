@@ -1093,7 +1093,7 @@ margin-top: 40px;
     }
 
     .tiers {
-    min-width: 100%;
-    width: max-content;
+    /* min-width: 100%;
+    width: max-content; */
 }
 }
