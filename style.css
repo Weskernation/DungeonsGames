@@ -1077,13 +1077,13 @@ margin-top: 40px;
     }
 
     .floating-menu {
-        max-width: calc(100% - 100px);
+        max-width: calc(100% - 70px);
         flex-wrap: wrap;
-        gap: clamp(3px, 1vw, 15px);
+        gap: clamp(3px, 1.5vw, 15px);
     }
 
     .floating-menu button {
-        gap: (30px,6vw,40px);
+        gap: (36px,8vw,55px);
     }
 
     .credits-container {
@@ -1091,4 +1091,9 @@ margin-top: 40px;
         visibility: hidden;
         
     }
+
+    .tier {
+    min-width: 100%;
+    width: max-content;
+}
 }
