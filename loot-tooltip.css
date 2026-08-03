@@ -249,7 +249,7 @@
     z-index:5000;
 }
 
-@media (max-width:900px){
+/* @media (max-width:900px){
 
     .item-tooltips-enabled .loot-item:hover .item-description{
         opacity:0;
@@ -261,7 +261,7 @@
         visibility:visible !important;
     }
 
-}
+} */
 
 .tooltip-overlay{
 
