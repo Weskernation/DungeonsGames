@@ -2,9 +2,6 @@ const ENABLE_ITEM_TOOLTIPS = true;
 
 const MOBILE_WIDTH = 900;
 
-function tooltipsEnabled() {
-    return document.body.classList.contains("item-tooltips-enabled");
-}
 function isMobileTooltip() {
     return window.innerWidth <= MOBILE_WIDTH;
 }
@@ -129,16 +126,9 @@ if (ENABLE_ITEM_TOOLTIPS) {
                     cell.appendChild(tooltip);
 
                         // Dit is de tooltip voor <= 900px schermen/mobiel)
-
-                        if (!tooltipsEnabled()) return;
                         if (isMobileTooltip()) {
 
-                                e.preventDefault();
-                                e.stopPropagation();
-
                             cell.addEventListener("click", (event) => {
-
-                        
 
                                 event.stopPropagation();
 
