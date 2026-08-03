@@ -226,4 +226,34 @@
 /* Dit is de Knop om tooltips ON/OFF END*/
 
 
-/*  */
+@media (max-width:900px){
+
+.item-description.mobile-open{
+
+    position:fixed;
+
+    top: max(20px, env(safe-area-inset-top));
+    right: max(20px, env(safe-area-inset-right));
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: max(20px, env(safe-area-inset-left));
+
+    width:auto;
+    max-width:none;
+    max-height:none;
+
+    overflow:auto;
+
+    z-index:5000;
+}
+
+.tooltip-overlay{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.65);
+
+    z-index:4999;
+}
+
+}
