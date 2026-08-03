@@ -126,7 +126,7 @@ if (ENABLE_ITEM_TOOLTIPS) {
                     cell.appendChild(tooltip);
 
                         // Dit is de tooltip voor <= 900px schermen/mobiel)
-                        if (isMobileTooltip()) {
+                        
 
                             cell.addEventListener("click", (event) => {
 
@@ -198,7 +198,7 @@ if (ENABLE_ITEM_TOOLTIPS) {
                                 tooltip.style.marginRight = "";
 
                             });
-                        }
+                        
             
             });
 
