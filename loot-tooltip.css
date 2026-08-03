@@ -305,12 +305,15 @@ if (ENABLE_ITEM_TOOLTIPS) {
 
 
             } else {
-            const tooltipButton = document.getElementById("toggle-item-tooltips");
 
-            if (tooltipButton) {
+                const tooltipButton =
+                    document.getElementById("toggle-item-tooltips");
 
-                tooltipButton.style.display = "none";
+                if (tooltipButton) {
+                    tooltipButton.style.display = "none";
+                }
 
-            }
-        document.body.classList.add("item-tooltips-disabled");
+                document.body.classList.add(
+                    "item-tooltips-disabled"
+                );
 }
