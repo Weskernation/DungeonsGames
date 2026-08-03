@@ -1071,15 +1071,15 @@ margin-top: 40px;
     }
 
     .progression-info-panel {
-        width: 100%;
+        width: 768px%;
         flex: none;
         padding: 15px;
     }
 
     .floating-menu {
-        max-width: calc(100% - 10px);
+        max-width: calc(100% - 0px);
         flex-wrap: wrap;
-        gap: clamp(3px, 1vw, 15px);
+        gap: clamp(3px, 1.5vw, 15px);
     }
 
     .floating-menu button {
