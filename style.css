@@ -1057,7 +1057,7 @@ margin-top: 40px;
 }
 /* Epic Boons end */
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (max-height: 500px) and (orientation: landscape) {
 
     .progression {
         flex-direction: column;
