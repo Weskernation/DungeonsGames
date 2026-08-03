@@ -1071,7 +1071,7 @@ margin-top: 40px;
     }
 
     .progression-info-panel {
-        width: 768px%;
+        width: 100%;
         flex: none;
         padding: 15px;
     }
@@ -1093,7 +1093,7 @@ margin-top: 40px;
     }
 
     .tier {
-    min-width: 100%;
+    min-width: 786px;
     width: max-content;
 }
 }
