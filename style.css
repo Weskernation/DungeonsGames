@@ -1078,8 +1078,8 @@ margin-top: 40px;
 
     .floating-menu {
         max-width: calc(100% - 140px);
-        flex-wrap;
-        gap: clamp(3px, 1.5vw, 15px)
+        flex-wrap: wrap;
+        gap: clamp(3px, 1.5vw, 15px);
     }
 
     .floating-menu button {
@@ -1087,6 +1087,7 @@ margin-top: 40px;
     }
 
     .credits-container {
-        position: fixed
+        position: fixed;
+        
     }
 }
