@@ -1,9 +1,7 @@
 /* =====================
    Loot Table
 ===================== */
-body {
-    
-}
+
 
 #loot-table .loot-title {
     width: 100%;
@@ -229,7 +227,7 @@ body {
 /* =====================
    Loot Table — Mobile
 ===================== */
-@media (max-width: 768px) {
+@media (max-width: 768px), (max-height: 500px) and (orientation: landscape) {
 
     .loot-layout {
         flex-direction: column;
