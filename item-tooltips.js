@@ -23,6 +23,10 @@ if (ENABLE_ITEM_TOOLTIPS) {
 
             document.querySelectorAll(".loot-item[data-item]").forEach(cell => {
 
+                    if (window.innerWidth <= 900) {
+                        return;
+                    }
+
                 const itemName = cell.dataset.item;
 
                 if (!itemName) {
@@ -207,7 +211,11 @@ if (ENABLE_ITEM_TOOLTIPS) {
 
         if (tooltipButton) {
 
-            tooltipButton.style.display = "block";
+            if (isMobileTooltip()) {
+                tooltipButton.style.display = "none";
+            } else {
+                tooltipButton.style.display = "block";
+            }
 
             let tooltipMode = 0;
 
