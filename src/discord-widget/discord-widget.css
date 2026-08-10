@@ -1,0 +1,129 @@
+/* Online gebruikers widget */
+
+#online-widget {
+
+    position: fixed;
+
+    top: calc(env(safe-area-inset-top) + clamp(8px, 2vh, 20px));
+    right: calc(env(safe-area-inset-right) + clamp(8px, 2vw, 20px));
+
+    /* width: clamp(90px, 8vw, 130px); */
+    width: fit-content;
+    min-width: 90px;
+    max-width: 90vw;
+
+    background: rgba(30, 30, 30, 0.25);
+    color: white;
+
+    border-radius: clamp(6px, 1vw, 10px);
+
+    font-family: Arial, sans-serif;
+
+    overflow: hidden;
+
+    z-index: 1000;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+
+    backdrop-filter: blur(4px);
+
+    transition: background 0.2s ease, box-shadow 0.2s ease, width 0.2s ease;
+}
+
+
+/* Desktop hover */
+@media (hover: hover) {
+
+    #online-widget:hover {
+
+        background: rgba(30, 30, 30, 0.9);
+
+        box-shadow:
+            0 4px 12px rgba(0,0,0,0.4);
+
+    }
+
+}
+
+
+/* Uitgeklapte toestand */
+#online-widget.open {
+
+    background: rgba(30, 30, 30, 0.9);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.4);
+
+}
+
+
+/* Titel */
+#online-header {
+
+    opacity: 0.75;
+
+    padding: clamp(4px, 0.8vh, 6px)
+             clamp(6px, 0.8vw, 10px);
+
+    font-size: clamp(10px, 1.2vw, 13px);
+
+    cursor: pointer;
+
+    user-select: none;
+
+    white-space: nowrap;
+
+    font-size: clamp(12px, 1.5vw, 16px);
+
+    transition: opacity 0.2s ease;
+}
+
+#online-widget:hover #online-header, #online-widget.open #online-header {
+
+    opacity: 1;
+
+}
+
+
+/* Lijst */
+#online-list {
+    display: none;
+
+    padding: clamp(4px, 0.8vh, 6px)
+             clamp(6px, 0.8vw, 10px);
+
+    border-top: 1px solid #444;
+
+    max-height: 50vh;
+
+    overflow-y: auto;
+}
+
+
+#online-widget.open #online-list {
+    display: block;
+}
+
+
+/* Namen */
+#online-list p {
+
+    margin: clamp(4px, 0.8vh, 8px) 0;
+
+    font-size: clamp(10px, 1vw, 12px);
+
+    line-height: 1.2;
+
+    white-space: normal;
+
+    overflow-wrap: break-word;
+
+}
+
+
+#online-list small {
+
+    opacity: 0.7;
+
+    font-size: 0.85em;
+}
