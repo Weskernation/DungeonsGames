@@ -14,7 +14,9 @@ document.body.appendChild(onlineWidget);
 
 
 // Socket.IO
-const socket = io();
+const socket = io({
+    transports: ['websocket']
+});
 
 const userData = document.body.dataset.user;
 
