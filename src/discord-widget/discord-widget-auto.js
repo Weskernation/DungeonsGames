@@ -14,48 +14,35 @@ document.body.appendChild(onlineWidget);
 
 
 // Socket.IO
+const socket = io();
 const socket = io({
     transports: ['websocket']
 });
 
 const userData = document.body.dataset.user;
 
-
 if (userData) {
-
-    // =========================
-    // Discord-gebruiker
-    // =========================
 
     const user = JSON.parse(userData);
 
+    socket.on('onlineUsers', (users) => {
 
-    socket.on('onlineUsers', (data) => {
-
-        console.log("Ontvangen online data:", data);
-
+        console.log("Ontvangen gebruikers:", users);
+console.log("Aantal gebruikers:", users.length);
+console.log("Counter element:", document.getElementById('online-count'));
+console.log("List element:", document.getElementById('online-list'));
 
         const count = document.getElementById('online-count');
         const list = document.getElementById('online-list');
-
 
         if (!count || !list) {
             return;
         }
 
-
-        const users = data.users || [];
-        const guestCount = data.guestCount || 0;
-
-
-        // Totaal aantal online bezoekers
-        count.textContent = users.length + guestCount;
-
+        count.textContent = users.length;
 
         list.innerHTML = "";
 
-
-        // Discord-gebruikers
         users.forEach(user => {
 
             const item = document.createElement('p');
@@ -69,86 +56,9 @@ if (userData) {
 
         });
 
-
-        // Anonieme bezoekers
-        if (guestCount > 0) {
-
-            const item = document.createElement('p');
-
-            item.textContent = `Anoniem (${guestCount})`;
-
-            list.appendChild(item);
-
-        }
-
     });
-
 
     socket.emit('registerUser', user);
-
-
-} else {
-
-    // =========================
-    // Anonieme bezoeker
-    // =========================
-
-    socket.on('onlineUsers', (data) => {
-
-        console.log("Ontvangen online data voor gast:", data);
-
-
-        const count = document.getElementById('online-count');
-        const list = document.getElementById('online-list');
-
-
-        if (!count || !list) {
-            return;
-        }
-
-
-        const users = data.users || [];
-        const guestCount = data.guestCount || 0;
-
-
-        // Totaal aantal online bezoekers
-        count.textContent = users.length + guestCount;
-
-
-        list.innerHTML = "";
-
-
-        // Discord-gebruikers
-        users.forEach(user => {
-
-            const item = document.createElement('p');
-
-            item.innerHTML =
-                user.global_name +
-                "<br>" +
-                "<small>@" + user.username + "</small>";
-
-            list.appendChild(item);
-
-        });
-
-
-        // Anonieme bezoekers
-        if (guestCount > 0) {
-
-            const item = document.createElement('p');
-
-            item.textContent = `Anoniem (${guestCount})`;
-
-            list.appendChild(item);
-
-        }
-
-    });
-
-
-    socket.emit('registerGuest');
-
 }
 
 
@@ -162,5 +72,3 @@ if (onlineWidget && onlineHeader) {
         onlineWidget.classList.toggle('open');
 
     });
-
-}
