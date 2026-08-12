@@ -88,12 +88,12 @@ app.get('/', (req, res) => {
                     }
                     
                     a {
-                        display: block;          
+                        display: inline-block;          
                         padding: 12px;           /* Ruimte binnen het blok */
                         margin-bottom: 8px;      /* Ruimte onder het blok */
-                        background-color: rgba(90, 55, 25, 1); /* Een lichte achtergrondkleur */
-                        border-radius: 6px;      /* Mooie afgeronde hoeken */
-                        border: 2px solid rgba(255, 215, 0, 1); 
+                        background-color: rgba(90, 55, 25, 0.95); /* Een lichte achtergrondkleur */
+                        border-radius: 10px;      /* Mooie afgeronde hoeken */
+                        border: 3px solid rgba(255, 215, 0, 1); 
                     }
                 </style>
             </head>
