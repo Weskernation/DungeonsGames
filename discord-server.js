@@ -84,7 +84,7 @@ app.get('/', (req, res) => {
                         text-shadow: rgba(90, 55, 25, 0.9);
                         color: rgba(255, 215, 0, 1);
                         margin-top: 2vh;
-                        font-size: clamp(2vmin, 3vw, 4vmin);
+                        font-size: clamp(1.5vmin, 2vw, 3vmin);
                     }
                     
                     a, a:link, a:visited {
