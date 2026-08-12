@@ -2,8 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const session = require('express-session');
-const { RedisStore } = require('connect-redis');
-const { Redis } = require('@upstash/redis');
+// const { RedisStore } = require('connect-redis');
+// const { Redis } = require('@upstash/redis');
 const axios = require('axios');
 const http = require('http');
 const fs = require('fs');
@@ -26,14 +26,14 @@ const onlineGuests = new Set();
 // NIEUWE SITUATIE - UPSTASH REDIS
 // ==========================================
 
-const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN
-});
+// const redis = new Redis({
+//     url: process.env.UPSTASH_REDIS_REST_URL,
+//     token: process.env.UPSTASH_REDIS_REST_TOKEN
+// });
 
-const redisStore = new RedisStore({
-    client: redis
-});
+// const redisStore = new RedisStore({
+//     client: redis
+// });
 
 
 // Zoekt de Naam bij de online gebruiker
