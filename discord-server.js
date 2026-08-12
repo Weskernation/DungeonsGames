@@ -94,6 +94,7 @@ app.get('/', (req, res) => {
                         background-color: rgba(90, 55, 25, 0.95); /* Een lichte achtergrondkleur */
                         border-radius: 10px;      /* Mooie afgeronde hoeken */
                         border: 3px solid rgba(255, 215, 0, 1); 
+                        color: rgba(255, 215, 0, 1);
                     }
                 </style>
             </head>
