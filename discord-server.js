@@ -84,17 +84,7 @@ app.get('/', (req, res) => {
                         text-shadow: rgba(90, 55, 25, 0.9);
                         color: rgba(255, 215, 0, 1);
                         margin-top: 2vh;
-                        font-size: clamp(1.5vmin, 2vw, 3vmin);
-                    }
-                    
-                    a, a:link, a:visited {
-                        display: inline-block;          
-                        padding: 12px 30px;          /* Ruimte binnen het blok */
-                        margin-bottom: 8px;      /* Ruimte onder het blok */
-                        background-color: rgba(90, 55, 25, 0.95); /* Een lichte achtergrondkleur */
-                        border-radius: 10px;      /* Mooie afgeronde hoeken */
-                        border: 3px solid rgba(255, 215, 0, 1); 
-                        color: rgba(255, 215, 0, 1);
+                        font-size: 1vw;
                     }
                 </style>
             </head>
