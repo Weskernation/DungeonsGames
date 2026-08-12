@@ -95,6 +95,9 @@ app.get('/', (req, res) => {
     console.log("STARTPAGINA bezocht");
     console.log("Session ID:", req.sessionID);
     console.log("Session user:", req.session.user);
+    
+console.log("canGuest:", req.session.canGuest);
+console.log("guest:", req.session.guest);
 
 
     if (!req.session.user && !req.session.guest) {
@@ -204,6 +207,9 @@ app.get('/', (req, res) => {
 app.get('/guest', (req, res) => {
 
     console.log("Gast probeert toegang te krijgen");
+    console.log("Session ID:", req.sessionID);
+    console.log("canGuest:", req.session.canGuest);
+    console.log("guest:", req.session.guest);
 
     if (!req.session.canGuest) {
 
