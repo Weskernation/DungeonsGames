@@ -86,6 +86,15 @@ app.get('/', (req, res) => {
                         margin-top: 2vh;
                         font-size: clamp(2vmin, 3vw, 4vmin);
                     }
+                    
+                    a {
+                        display: block;          
+                        padding: 12px;           /* Ruimte binnen het blok */
+                        margin-bottom: 8px;      /* Ruimte onder het blok */
+                        background-color: rgba(90, 55, 25, 1); /* Een lichte achtergrondkleur */
+                        border-radius: 6px;      /* Mooie afgeronde hoeken */
+                        border: 2px solid rgba(255, 215, 0, 1); 
+                    }
                 </style>
             </head>
             <body>
