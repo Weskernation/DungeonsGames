@@ -84,7 +84,7 @@ app.get('/', (req, res) => {
                         text-shadow: rgba(90, 55, 25, 0.9);
                         color: rgba(255, 215, 0, 1);
                         margin-top: 2vh;
-                        font-size: 1vmin;
+                        font-size: 2vmin;
                     }
                 </style>
             </head>
