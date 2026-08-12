@@ -87,9 +87,9 @@ app.get('/', (req, res) => {
                         font-size: clamp(2vmin, 3vw, 4vmin);
                     }
                     
-                    a {
+                    a, a:link, a:visited {
                         display: inline-block;          
-                        padding: 12px;           /* Ruimte binnen het blok */
+                        padding: 12px 30px;          /* Ruimte binnen het blok */
                         margin-bottom: 8px;      /* Ruimte onder het blok */
                         background-color: rgba(90, 55, 25, 0.95); /* Een lichte achtergrondkleur */
                         border-radius: 10px;      /* Mooie afgeronde hoeken */
