@@ -14,7 +14,6 @@ document.body.appendChild(onlineWidget);
 
 
 // Socket.IO
-const socket = io();
 const socket = io({
     transports: ['websocket']
 });
@@ -72,3 +71,5 @@ if (onlineWidget && onlineHeader) {
         onlineWidget.classList.toggle('open');
 
     });
+
+}
