@@ -1,15 +1,3 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "discord-server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "discord-server.js"
-    }
-  ]
+  "version": 2
 }
