@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const session = require('express-session');
+const { RedisStore } = require('connect-redis');
+const { Redis } = require('@upstash/redis');
 const axios = require('axios');
 const http = require('http');
 const fs = require('fs');
@@ -10,6 +12,28 @@ const { Server } = require('socket.io');
 const app = express();
 const PORT = 3000;
 const onlineUsers = new Map();
+const onlineGuests = new Set();
+
+
+// ==========================================
+// OUDE SITUATIE - GEEN REDIS
+// ==========================================
+
+// Deze laten we voorlopig staan als backup.
+// Niet actief.
+
+// ==========================================
+// NIEUWE SITUATIE - UPSTASH REDIS
+// ==========================================
+
+const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN
+});
+
+const redisStore = new RedisStore({
+    client: redis
+});
 
 
 // Zoekt de Naam bij de online gebruiker
@@ -26,6 +50,11 @@ function getOnlineUserList() {
 
 }
 
+
+// ==========================================
+// OUDE SESSION CONFIG - BACKUP
+// ==========================================
+
 // Sessies instellen
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -35,6 +64,23 @@ app.use(session({
         secure: false
     }
 }));
+
+
+// ==========================================
+// NIEUWE SESSION CONFIG - UPSTASH REDIS
+// ==========================================
+
+// app.use(session({
+//     store: redisStore,
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         secure: true,
+//         httpOnly: true,
+//         sameSite: 'lax'
+//     }
+// }));
 
 
 // Public assets laden zonder index.html automatisch te tonen
@@ -47,12 +93,15 @@ app.use(express.static(__dirname + '/src', {
 app.get('/', (req, res) => {
 
     console.log("STARTPAGINA bezocht");
+    console.log("Session ID:", req.sessionID);
+    console.log("Session user:", req.session.user);
 
 
-    if (!req.session.user) {
+    if (!req.session.user && !req.session.guest) {
 
         console.log("Geen gebruiker ingelogd");
 
+        req.session.canGuest = true;
 
         const discordLoginUrl =
             `https://discord.com/oauth2/authorize` +
@@ -84,14 +133,32 @@ app.get('/', (req, res) => {
                         text-shadow: rgba(90, 55, 25, 0.9);
                         color: rgba(255, 215, 0, 1);
                         margin-top: 2vh;
-                        font-size: 1vw;
+                        font-size: clamp(2vmin, 3vw, 4vmin);
+                    }
+                    
+                    a, a:link, a:visited {
+                        display: inline-block;          
+                        padding: 12px 30px;          /* Ruimte binnen het blok */
+                        margin-bottom: 8px;      /* Ruimte onder het blok */
+                        background-color: rgba(90, 55, 25, 0.95); /* Een lichte achtergrondkleur */
+                        border-radius: 10px;      /* Mooie afgeronde hoeken */
+                        border: 3px solid rgba(255, 215, 0, 1); 
+                        color: rgba(255, 215, 0, 1);
                     }
                 </style>
             </head>
             <body>
-                <h1>Login vereist</h1>
-                <p>Je moet inloggen met Discord om deze website te bekijken.</p>
-                <a href="${discordLoginUrl}">Login met Discord</a>
+                <h1>Welkom</h1>
+
+                <p>Je kunt inloggen met Discord of doorgaan zonder in te loggen.</p>
+
+                <p>
+                    <a href="${discordLoginUrl}">Login met Discord</a>
+                </p>
+
+                <p>
+                    <a href="/guest">Naar de stempelkaart zonder inloggen</a>
+                </p>
             </body>
             </html>
         `);
@@ -99,31 +166,60 @@ app.get('/', (req, res) => {
     }
 
 
-    console.log(
-        "Gebruiker ingelogd:",
-        req.session.user.username
-    );
-
-
-    const user = req.session.user;
-
     let html = fs.readFileSync(
         __dirname + '/src/index.html',
         'utf8'
     );
 
+    if (req.session.user) {
 
-    html = html.replace(
-        'data-user=""',
-        `data-user='${JSON.stringify({
-            id: user.id,
-            username: user.username,
-            global_name: user.global_name || user.username
-        })}'`
-    );
+        console.log(
+            "Gebruiker ingelogd:",
+            req.session.user.username
+        );
 
+        const user = req.session.user;
+
+        html = html.replace(
+            'data-user=""',
+            `data-user='${JSON.stringify({
+                id: user.id,
+                username: user.username,
+                global_name: user.global_name || user.username
+            })}'`
+        );
+
+    } else {
+
+        console.log("Gast bezoekt de stempelkaart");
+
+    }
 
     res.send(html);
+
+});
+
+
+// Toegang zonder Discord-login
+app.get('/guest', (req, res) => {
+
+    console.log("Gast probeert toegang te krijgen");
+
+    if (!req.session.canGuest) {
+
+        console.log("Geen toestemming voor gasttoegang");
+
+        return res.redirect('/');
+
+    }
+
+    console.log("Gast kiest voor toegang zonder login");
+
+    req.session.guest = true;
+
+    delete req.session.canGuest;
+
+    res.redirect('/');
 
 });
 
@@ -174,6 +270,9 @@ app.get('/auth/discord/callback', async (req, res) => {
 
         req.session.user = userResponse.data;
 
+console.log("Sessie opgeslagen voor:", req.session.user);
+console.log("Session ID:", req.sessionID);
+
         res.redirect('/');
 
 
@@ -219,6 +318,7 @@ const io = new Server(server);
 io.on('connection', (socket) => {
 
     let currentUserId = null;
+    let isGuest = false;
 
     console.log('Nieuwe browser verbonden:', socket.id);
 
@@ -253,52 +353,90 @@ io.on('connection', (socket) => {
         );
 
 
-        io.emit('onlineUsers', getOnlineUserList());
+        io.emit('onlineUsers', {
+            users: getOnlineUserList(),
+            guestCount: onlineGuests.size
+        });
+
+    });
+
+
+    socket.on('registerGuest', () => {
+
+        isGuest = true;
+
+        onlineGuests.add(socket.id);
+
+        console.log(
+            'Anonieme bezoeker online:',
+            socket.id
+        );
+
+        console.log(
+            'Aantal anonieme bezoekers:',
+            onlineGuests.size
+        );
+
+        io.emit('onlineUsers', {
+            users: getOnlineUserList(),
+            guestCount: onlineGuests.size
+        });
 
     });
 
 
     socket.on('disconnect', () => {
 
+        if (isGuest) {
 
-        if (!currentUserId) {
-            return;
-        }
+            onlineGuests.delete(socket.id);
 
-
-        const userEntry = onlineUsers.get(currentUserId);
-
-
-        if (userEntry) {
-
-
-            userEntry.sockets = userEntry.sockets.filter(
-                id => id !== socket.id
+            console.log(
+                'Anonieme bezoeker verwijderd:',
+                socket.id
             );
 
+        }
 
-            if (userEntry.sockets.length === 0) {
+        if (currentUserId) {
 
-                onlineUsers.delete(currentUserId);
+            const userEntry = onlineUsers.get(currentUserId);
+
+            if (userEntry) {
+
+                userEntry.sockets = userEntry.sockets.filter(
+                    id => id !== socket.id
+                );
+
+                if (userEntry.sockets.length === 0) {
+
+                    onlineUsers.delete(currentUserId);
+
+                }
 
             }
 
         }
-
 
         console.log(
             'Browser verwijderd:',
             socket.id
         );
 
-
         console.log(
-            'Unieke online gebruikers:',
+            'Unieke Discord-gebruikers:',
             onlineUsers.size
         );
 
+        console.log(
+            'Anonieme bezoekers:',
+            onlineGuests.size
+        );
 
-        io.emit('onlineUsers', getOnlineUserList());
+        io.emit('onlineUsers', {
+            users: getOnlineUserList(),
+            guestCount: onlineGuests.size
+        });
 
     });
 
