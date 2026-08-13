@@ -18,6 +18,7 @@ const fs = require('fs');
 const { Server } = require('socket.io');
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = 3000;
 const onlineUsers = new Map();
 const onlineGuests = new Set();
