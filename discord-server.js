@@ -89,16 +89,63 @@ app.use(express.static(__dirname + '/src', {
 }));
 
 
+
+// Keuzepagina tijdelijk aan/uit
+const KEUZE_PAGINA_ACTIEF = false;
+
+// Functie om de stempelkaart te tonen
+function toonStempelkaart(req, res) {
+
+    let html = fs.readFileSync(
+        __dirname + '/src/index.html',
+        'utf8'
+    );
+
+    if (req.session.user) {
+
+        console.log(
+            "Gebruiker ingelogd:",
+            req.session.user.username
+        );
+
+        const user = req.session.user;
+
+        html = html.replace(
+            'data-user=""',
+            `data-user='${JSON.stringify({
+                id: user.id,
+                username: user.username,
+                global_name: user.global_name || user.username
+            })}'`
+        );
+
+    } else {
+
+        console.log("Gast bezoekt de stempelkaart");
+
+    }
+
+    res.send(html);
+}
+
 // Startpagina
 app.get('/', (req, res) => {
 
     console.log("STARTPAGINA bezocht");
     console.log("Session ID:", req.sessionID);
     console.log("Session user:", req.session.user);
-    
-console.log("canGuest:", req.session.canGuest);
-console.log("guest:", req.session.guest);
 
+    // -----------------------------------------
+    // TIJDELIJK KEUZEPAGINA UITSCHAKELEN
+    // -----------------------------------------
+    if (!KEUZE_PAGINA_ACTIEF) {
+        return toonStempelkaart(req, res);
+    }
+
+
+    // -----------------------------------------
+    // NORMALE KEUZEPAGINA
+    // -----------------------------------------
 
     if (!req.session.user && !req.session.guest) {
 
@@ -169,36 +216,7 @@ console.log("guest:", req.session.guest);
     }
 
 
-    let html = fs.readFileSync(
-        __dirname + '/src/index.html',
-        'utf8'
-    );
-
-    if (req.session.user) {
-
-        console.log(
-            "Gebruiker ingelogd:",
-            req.session.user.username
-        );
-
-        const user = req.session.user;
-
-        html = html.replace(
-            'data-user=""',
-            `data-user='${JSON.stringify({
-                id: user.id,
-                username: user.username,
-                global_name: user.global_name || user.username
-            })}'`
-        );
-
-    } else {
-
-        console.log("Gast bezoekt de stempelkaart");
-
-    }
-
-    res.send(html);
+    return toonStempelkaart(req, res);
 
 });
 
@@ -207,9 +225,6 @@ console.log("guest:", req.session.guest);
 app.get('/guest', (req, res) => {
 
     console.log("Gast probeert toegang te krijgen");
-    console.log("Session ID:", req.sessionID);
-    console.log("canGuest:", req.session.canGuest);
-    console.log("guest:", req.session.guest);
 
     if (!req.session.canGuest) {
 
