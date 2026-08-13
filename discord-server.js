@@ -232,7 +232,7 @@ app.use(express.static(__dirname + '/src', {
 
 
 // Keuzepagina tijdelijk aan/uit
-const KEUZE_PAGINA_ACTIEF = false;
+const KEUZE_PAGINA_ACTIEF = true;
 
 // Functie om de stempelkaart te tonen
 function toonStempelkaart(req, res) {
@@ -365,9 +365,26 @@ app.get('/', (req, res) => {
                         <a href="${discordLoginUrl}">Login met Discord</a>
                     </p>
 
-                    <p>
-                        <a href="/guest">Naar de stempelkaart zonder inloggen</a>
-                    </p>
+                    <form method="POST" action="/guest">
+                        <button
+                            type="submit"
+                            style="
+                                display: inline-block;
+                                padding: 12px 30px;
+                                margin-bottom: 8px;
+                                background-color: rgba(90, 55, 25, 0.95);
+                                border-radius: 10px;
+                                border: 3px solid rgba(255, 215, 0, 1);
+                                color: rgba(255, 215, 0, 1);
+                                font-size: inherit;
+                                font-family: inherit;
+                                cursor: pointer;
+                                text-decoration: underline;
+                            "
+                        >
+                            Naar de stempelkaart zonder inloggen
+                        </button>
+                    </form>
                 </body>
                 </html>
             `);
@@ -382,11 +399,74 @@ app.get('/', (req, res) => {
 
 
 // Toegang zonder Discord-login
+// ==========================================
+// OUDE GET /guest - BACKUP
+// ==========================================
+
+// app.get('/guest', (req, res) => {
+
+//     res.set('Cache-Control', 'no-store');
+
+//     console.log("Gast probeert toegang te krijgen");
+
+//     if (!req.session.canGuest) {
+
+//         console.log("Geen toestemming voor gasttoegang");
+
+//         return res.redirect('/');
+
+//     }
+
+//     console.log("Gast kiest voor toegang zonder login");
+
+//     req.session.guest = true;
+
+//     delete req.session.canGuest;
+
+//     req.session.save((err) => {
+
+//         if (err) {
+
+//             console.error(
+//                 "Gast-sessie opslaan mislukt:",
+//                 err
+//             );
+
+//             return res
+//                 .status(500)
+//                 .send("Sessie opslaan mislukt.");
+
+//         }
+
+//         res.redirect('/');
+
+//     });
+
+// });
+
+
+// ==========================================
+// NIEUWE GET /guest
+// ==========================================
+
 app.get('/guest', (req, res) => {
+
+    console.log("Directe GET naar /guest");
+
+    res.redirect('/');
+
+});
+
+
+// ==========================================
+// NIEUWE POST /guest
+// ==========================================
+
+app.post('/guest', (req, res) => {
 
     res.set('Cache-Control', 'no-store');
 
-    console.log("Gast probeert toegang te krijgen");
+    console.log("Gast probeert toegang te krijgen via POST");
 
     if (!req.session.canGuest) {
 
