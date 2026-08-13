@@ -2,8 +2,16 @@ require('dotenv').config();
 
 const express = require('express');
 const session = require('express-session');
-const { RedisStore } = require('connect-redis');
-const { createClient } = require('redis');
+
+const { Redis } = require('@upstash/redis');
+
+// ==========================================
+// OUDE REDIS-CLIENT - BACKUP
+// ==========================================
+
+// const { RedisStore } = require('connect-redis');
+// const { createClient } = require('redis');
+
 const axios = require('axios');
 const http = require('http');
 const fs = require('fs');
@@ -16,22 +24,156 @@ const onlineGuests = new Set();
 
 
 // ==========================================
-// UPSTASH REDIS
+// OUDE TCP REDIS-STORE - BACKUP
 // ==========================================
 
-const redis = createClient({
-    url: process.env.REDIS_URL
+// const redis = createClient({
+//     url: process.env.REDIS_URL
+// });
+
+// redis.on('error', err => {
+//     console.error('Redis Client Error', err);
+// });
+
+// redis.connect();
+
+// const redisStore = new RedisStore({
+//     client: redis
+// });
+
+
+// ==========================================
+// NIEUWE UPSTASH HTTP SESSION-STORE
+// ==========================================
+
+const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN
 });
 
-redis.on('error', err => {
-    console.error('Redis Client Error', err);
-});
 
-redis.connect();
+class UpstashSessionStore extends session.Store {
 
-const redisStore = new RedisStore({
-    client: redis
-});
+    constructor() {
+        super();
+
+        this.prefix = 'sess:';
+        this.defaultTtl = 86400;
+    }
+
+    getKey(sid) {
+        return `${this.prefix}${sid}`;
+    }
+
+    getTtl(sess) {
+
+        if (sess?.cookie?.maxAge != null) {
+            return Math.max(
+                1,
+                Math.floor(sess.cookie.maxAge / 1000)
+            );
+        }
+
+        return this.defaultTtl;
+    }
+
+    get(sid, callback) {
+
+        redis.get(this.getKey(sid))
+            .then(data => {
+
+                if (!data) {
+                    return callback(null, null);
+                }
+
+                if (typeof data === 'string') {
+                    return callback(null, JSON.parse(data));
+                }
+
+                return callback(null, data);
+
+            })
+            .catch(err => {
+
+                console.error('Redis session GET fout:', err);
+
+                callback(err);
+
+            });
+
+    }
+
+    set(sid, sess, callback) {
+
+        const ttl = this.getTtl(sess);
+
+        redis.set(
+            this.getKey(sid),
+            JSON.stringify(sess),
+            {
+                ex: ttl
+            }
+        )
+            .then(() => {
+
+                callback(null);
+
+            })
+            .catch(err => {
+
+                console.error('Redis session SET fout:', err);
+
+                callback(err);
+
+            });
+
+    }
+
+    destroy(sid, callback) {
+
+        redis.del(this.getKey(sid))
+            .then(() => {
+
+                callback(null);
+
+            })
+            .catch(err => {
+
+                console.error('Redis session DELETE fout:', err);
+
+                callback(err);
+
+            });
+
+    }
+
+    touch(sid, sess, callback) {
+
+        const ttl = this.getTtl(sess);
+
+        redis.expire(
+            this.getKey(sid),
+            ttl
+        )
+            .then(() => {
+
+                callback(null);
+
+            })
+            .catch(err => {
+
+                console.error('Redis session TOUCH fout:', err);
+
+                callback(err);
+
+            });
+
+    }
+
+}
+
+
+const redisStore = new UpstashSessionStore();
 
 
 // Zoekt de Naam bij de online gebruiker
