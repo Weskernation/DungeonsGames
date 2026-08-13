@@ -272,6 +272,8 @@ function toonStempelkaart(req, res) {
 // Startpagina
 app.get('/', (req, res) => {
 
+    res.set('Cache-Control', 'no-store');
+
     console.log("STARTPAGINA bezocht");
     console.log("Session ID:", req.sessionID);
     console.log("Session user:", req.session.user);
@@ -300,59 +302,77 @@ app.get('/', (req, res) => {
             `&redirect_uri=${encodeURIComponent(process.env.DISCORD_REDIRECT_URI)}` +
             `&response_type=code` +
             `&scope=identify`;
-            
-console.log("Discord Login URL:", discordLoginUrl);
-        return res.send(`
-                    <html>
-            <head>
-                <link rel="stylesheet" href="style.css">
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
 
-                        background-image: url("images/frequent-freewheelers_banner.webp");
+        console.log("Discord Login URL:", discordLoginUrl);
 
-                        background-repeat: no-repeat;
-                        background-position: center center;
-                        background-attachment: fixed;
-                        background-size: 100% auto;
-                        background-color: #1a1a1a;
-                        overflow-x: hidden;
-                        flex: auto;
-                        flex-direction: column;
-                        text-align: center;
-                        text-shadow: rgba(90, 55, 25, 0.9);
-                        color: rgba(255, 215, 0, 1);
-                        margin-top: 2vh;
-                        font-size: clamp(2vmin, 3vw, 4vmin);
-                    }
-                    
-                    a, a:link, a:visited {
-                        display: inline-block;          
-                        padding: 12px 30px;          /* Ruimte binnen het blok */
-                        margin-bottom: 8px;      /* Ruimte onder het blok */
-                        background-color: rgba(90, 55, 25, 0.95); /* Een lichte achtergrondkleur */
-                        border-radius: 10px;      /* Mooie afgeronde hoeken */
-                        border: 3px solid rgba(255, 215, 0, 1); 
-                        color: rgba(255, 215, 0, 1);
-                    }
-                </style>
-            </head>
-            <body>
-                <h1>Welkom</h1>
+        return req.session.save((err) => {
 
-                <p>Je kunt inloggen met Discord of doorgaan zonder in te loggen.</p>
+            if (err) {
 
-                <p>
-                    <a href="${discordLoginUrl}">Login met Discord</a>
-                </p>
+                console.error(
+                    "Gast-sessie opslaan mislukt:",
+                    err
+                );
 
-                <p>
-                    <a href="/guest">Naar de stempelkaart zonder inloggen</a>
-                </p>
-            </body>
-            </html>
-        `);
+                return res
+                    .status(500)
+                    .send("Sessie opslaan mislukt.");
+
+            }
+
+            res.send(`
+                <html>
+                <head>
+                    <link rel="stylesheet" href="style.css">
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+
+                            background-image: url("images/frequent-freewheelers_banner.webp");
+
+                            background-repeat: no-repeat;
+                            background-position: center center;
+                            background-attachment: fixed;
+                            background-size: 100% auto;
+                            background-color: #1a1a1a;
+                            overflow-x: hidden;
+                            flex: auto;
+                            flex-direction: column;
+                            text-align: center;
+                            text-shadow: rgba(90, 55, 25, 0.9);
+                            color: rgba(255, 215, 0, 1);
+                            margin-top: 2vh;
+                            font-size: clamp(2vmin, 3vw, 4vmin);
+                        }
+
+                        a, a:link, a:visited {
+                            display: inline-block;
+                            padding: 12px 30px;
+                            margin-bottom: 8px;
+                            background-color: rgba(90, 55, 25, 0.95);
+                            border-radius: 10px;
+                            border: 3px solid rgba(255, 215, 0, 1);
+                            color: rgba(255, 215, 0, 1);
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Welkom</h1>
+
+                    <p>Je kunt inloggen met Discord of doorgaan zonder in te loggen.</p>
+
+                    <p>
+                        <a href="${discordLoginUrl}">Login met Discord</a>
+                    </p>
+
+                    <p>
+                        <a href="/guest">Naar de stempelkaart zonder inloggen</a>
+                    </p>
+                </body>
+                </html>
+            `);
+
+        });
 
     }
 
@@ -363,6 +383,8 @@ console.log("Discord Login URL:", discordLoginUrl);
 
 // Toegang zonder Discord-login
 app.get('/guest', (req, res) => {
+
+    res.set('Cache-Control', 'no-store');
 
     console.log("Gast probeert toegang te krijgen");
 
@@ -380,7 +402,24 @@ app.get('/guest', (req, res) => {
 
     delete req.session.canGuest;
 
-    res.redirect('/');
+    req.session.save((err) => {
+
+        if (err) {
+
+            console.error(
+                "Gast-sessie opslaan mislukt:",
+                err
+            );
+
+            return res
+                .status(500)
+                .send("Sessie opslaan mislukt.");
+
+        }
+
+        res.redirect('/');
+
+    });
 
 });
 
