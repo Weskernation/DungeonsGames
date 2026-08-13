@@ -216,27 +216,27 @@ body {
 }
 
 .tier-d {
-    background-color: rgba(226, 239, 218, 0.9);
+    background-color: rgba(226, 239, 218, 0.95);
 }
 
 
 .tier-c {
-    background-color: rgba(201, 218, 248, 0.9);
+    background-color: rgba(201, 218, 248, 0.95);
 }
 
 
 .tier-b {
-    background-color: rgba(255, 242, 204, 0.9);
+    background-color: rgba(255, 242, 204, 0.95);
 }
 
 
 .tier-a {
-    background-color: rgba(244, 204, 204, 0.9);
+    background-color: rgba(244, 204, 204, 0.95);
 }
 
 
 .tier-s {
-    background-color: rgba(217, 217, 217, 0.9);
+    background-color: rgba(217, 217, 217, 0.95);
 }
 
 .progression-grid {

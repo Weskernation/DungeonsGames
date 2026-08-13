@@ -1,4 +1,4 @@
-const ENABLE_ITEM_TOOLTIPS = false;
+const ENABLE_ITEM_TOOLTIPS = true;
 
 const MOBILE_WIDTH = 900;
 const MOBILE_LANDSCAPE_HEIGHT = 500;

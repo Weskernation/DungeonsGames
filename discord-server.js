@@ -2,8 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const session = require('express-session');
-// const { RedisStore } = require('connect-redis');
-// const { Redis } = require('@upstash/redis');
+const { RedisStore } = require('connect-redis');
+const { createClient } = require('redis');
 const axios = require('axios');
 const http = require('http');
 const fs = require('fs');
@@ -16,24 +16,22 @@ const onlineGuests = new Set();
 
 
 // ==========================================
-// OUDE SITUATIE - GEEN REDIS
+// UPSTASH REDIS
 // ==========================================
 
-// Deze laten we voorlopig staan als backup.
-// Niet actief.
+const redis = createClient({
+    url: process.env.REDIS_URL
+});
 
-// ==========================================
-// NIEUWE SITUATIE - UPSTASH REDIS
-// ==========================================
+redis.on('error', err => {
+    console.error('Redis Client Error', err);
+});
 
-// const redis = new Redis({
-//     url: process.env.UPSTASH_REDIS_REST_URL,
-//     token: process.env.UPSTASH_REDIS_REST_TOKEN
-// });
+redis.connect();
 
-// const redisStore = new RedisStore({
-//     client: redis
-// });
+const redisStore = new RedisStore({
+    client: redis
+});
 
 
 // Zoekt de Naam bij de online gebruiker
@@ -52,35 +50,35 @@ function getOnlineUserList() {
 
 
 // ==========================================
-// OUDE SESSION CONFIG - BACKUP
+// OUDE SESSION CONFIG - BACKUP ZONDER REDIS
 // ==========================================
 
 // Sessies instellen
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false
-    }
-}));
+// app.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         secure: false
+//     }
+// }));
 
 
 // ==========================================
 // NIEUWE SESSION CONFIG - UPSTASH REDIS
 // ==========================================
 
-// app.use(session({
-//     store: redisStore,
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         secure: true,
-//         httpOnly: true,
-//         sameSite: 'lax'
-//     }
-// }));
+app.use(session({
+    store: redisStore,
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: 'lax'
+    }
+}));
 
 
 // Public assets laden zonder index.html automatisch te tonen
@@ -91,7 +89,7 @@ app.use(express.static(__dirname + '/src', {
 
 
 // Keuzepagina tijdelijk aan/uit
-const KEUZE_PAGINA_ACTIEF = false;
+const KEUZE_PAGINA_ACTIEF = true;
 
 // Functie om de stempelkaart te tonen
 function toonStempelkaart(req, res) {
@@ -159,8 +157,8 @@ app.get('/', (req, res) => {
             `&redirect_uri=${encodeURIComponent(process.env.DISCORD_REDIRECT_URI)}` +
             `&response_type=code` +
             `&scope=identify`;
-
-
+            
+console.log("Discord Login URL:", discordLoginUrl);
         return res.send(`
                     <html>
             <head>
@@ -215,7 +213,6 @@ app.get('/', (req, res) => {
 
     }
 
-
     return toonStempelkaart(req, res);
 
 });
@@ -247,6 +244,8 @@ app.get('/guest', (req, res) => {
 
 // Discord callback
 app.get('/auth/discord/callback', async (req, res) => {
+
+    console.log("=== DISCORD CALLBACK BEREIKT ===");
 
     const code = req.query.code;
 
