@@ -68,6 +68,17 @@ class UpstashSessionStore extends session.Store {
 
     getTtl(sess) {
 
+        // Discord-gebruiker: 30 dagen
+        if (sess?.user) {
+            return 30 * 24 * 60 * 60;
+        }
+
+        // Gast of gebruiker die op de keuzepagina staat: 1 minuut
+        if (sess?.guest || sess?.canGuest) {
+            return 60;
+        }
+
+        // Bestaande fallback voor andere sessies
         if (sess?.cookie?.maxAge != null) {
             return Math.max(
                 1,

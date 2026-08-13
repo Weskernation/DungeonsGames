@@ -30,6 +30,20 @@
     transition: background 0.2s ease, box-shadow 0.2s ease, width 0.2s ease;
 }
 
+#logout-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 6px 10px;
+
+    border-top: 1px solid #444;
+
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+
 
 /* Desktop hover */
 @media (hover: hover) {

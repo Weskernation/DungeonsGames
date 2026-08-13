@@ -29,6 +29,14 @@ if (userData) {
 
     const user = JSON.parse(userData);
 
+    const logoutButton = document.createElement('a');
+
+    logoutButton.id = 'logout-button';
+    logoutButton.href = '/logout';
+    logoutButton.textContent = 'Uitloggen';
+
+    onlineWidget.appendChild(logoutButton);
+
 
     socket.on('onlineUsers', (data) => {
 
