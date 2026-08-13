@@ -231,7 +231,7 @@ app.use(express.static(__dirname + '/src', {
 
 
 // Keuzepagina tijdelijk aan/uit
-const KEUZE_PAGINA_ACTIEF = true;
+const KEUZE_PAGINA_ACTIEF = false;
 
 // Functie om de stempelkaart te tonen
 function toonStempelkaart(req, res) {
