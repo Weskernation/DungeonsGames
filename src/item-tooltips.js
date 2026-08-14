@@ -1,4 +1,5 @@
 const ENABLE_ITEM_TOOLTIPS = false;
+const GUEST_TOOLTIPS_ALLOWED = false;
 
 const MOBILE_WIDTH = 900;
 const MOBILE_LANDSCAPE_HEIGHT = 500;
@@ -12,7 +13,25 @@ function isMobileTooltip() {
 }
 
 
-if (ENABLE_ITEM_TOOLTIPS) {
+// ==========================================
+// TOEGANG TOT TOOLTIPS
+// ==========================================
+
+const isDiscordUser = !!document.body.dataset.user;
+
+const choicePageActive =
+    document.body.dataset.choicePageActive === "true";
+
+const TOOLTIP_ACCESS_ALLOWED =
+    ENABLE_ITEM_TOOLTIPS &&
+    (
+        !choicePageActive ||
+        isDiscordUser ||
+        GUEST_TOOLTIPS_ALLOWED
+    );
+
+
+if (TOOLTIP_ACCESS_ALLOWED) {
 
     document.body.classList.add("item-tooltips-disabled");
 
@@ -291,42 +310,42 @@ if (ENABLE_ITEM_TOOLTIPS) {
     "#progression-title, #loot-table"
     );
 
-if (tooltipButton && tooltipSections.length) {
+    if (tooltipButton && tooltipSections.length) {
 
-    let visibleSections = new Set();
+        let visibleSections = new Set();
 
-    const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries) => {
 
-        entries.forEach(entry => {
+            entries.forEach(entry => {
 
-            if (entry.isIntersecting) {
-                visibleSections.add(entry.target);
+                if (entry.isIntersecting) {
+                    visibleSections.add(entry.target);
+                } 
+                else {
+                    visibleSections.delete(entry.target);
+                }
+
+            });
+
+
+            if (visibleSections.size > 0) {
+                tooltipButton.parentElement.classList.add("visible");
             } 
             else {
-                visibleSections.delete(entry.target);
+                tooltipButton.parentElement.classList.remove("visible");
             }
 
+
+        },  {
+            rootMargin: "0px 0px 0px 0px"
+            });
+
+
+        tooltipSections.forEach(section => {
+            observer.observe(section);
         });
 
-
-        if (visibleSections.size > 0) {
-            tooltipButton.parentElement.classList.add("visible");
-        } 
-        else {
-            tooltipButton.parentElement.classList.remove("visible");
-        }
-
-
-    },  {
-        rootMargin: "0px 0px 0px 0px"
-        });
-
-
-    tooltipSections.forEach(section => {
-        observer.observe(section);
-    });
-
-}
+    }
 
 
         } else {

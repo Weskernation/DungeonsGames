@@ -277,6 +277,11 @@ function toonStempelkaart(req, res) {
 
     }
 
+    html = html.replace(
+        'data-choice-page-active=""',
+        `data-choice-page-active="${KEUZE_PAGINA_ACTIEF}"`
+    );
+
     res.send(html);
 }
 
