@@ -1,4 +1,4 @@
-const ENABLE_ITEM_TOOLTIPS = false;
+const ENABLE_ITEM_TOOLTIPS = true;
 const GUEST_TOOLTIPS_ALLOWED = false;
 
 const MOBILE_WIDTH = 900;
@@ -56,6 +56,10 @@ if (TOOLTIP_ACCESS_ALLOWED) {
                 const item = items[itemName];
 
                 if (!item) {
+                    return;
+                }
+
+                if (!item.type && !item.rarity) {
                     return;
                 }
 

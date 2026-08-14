@@ -252,16 +252,16 @@
             {
                 "name": "Produce the chosen liquid",
                 "action": "Action",
-                "effect": ["Acid: 8 ounces",
-                        "Basic poison: ½ ounce",
-                        "Beer: 4 gallons",
-                        "Honey: 1 gallon",
-                        "Mayonnaise: 2 gallons",
-                        "Oil: 1 quart",
-                        "Vinegar: 2 gallons",
-                        "Water (fresh): 8 gallons",
-                        "Water (salt): 12 gallons",
-                        "Wine: 1 gallon"],
+                "effect": ["<br>Acid: 8 ounces",                
+                        "<br>Basic poison: ½ ounce",
+                        "<br>Beer: 4 gallons",
+                        "<br>Honey: 1 gallon",
+                        "<br>Mayonnaise: 2 gallons",
+                        "<br>Oil: 1 quart",
+                        "<br>Vinegar: 2 gallons",
+                        "<br>Water (fresh): 8 gallons",
+                        "<br>Water (salt): 12 gallons",
+                        "<br>Wine: 1 gallon,<br>"],
                 "recharge": "Next dawn."
             }
         ],
@@ -468,343 +468,315 @@
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Armblade": {
-        "type": "",
-        "rarity": "",
+        "type": "Generic Weapon",
+        "rarity": "Common",
         "attunement": {
-            "required": false,
+            "required": true,
             "who": ""
         },
 
         "description": [
-            ""
+            "An armblade is a magic weapon that attaches to your arm"
         ],
 
-        "effects": [
-            ""
-        ],
+        "effects": [],
 
         "abilities": [
             {
-                "name": "",
-                "action": "",
-                "effect": "",
-                "recharge": ""
+                "name": "Retract or extend.",
+                "action": "Bonus action",
+                "effect": "Retract the armblade into your forearm or extend it from there.",
+                "recharge": "Melee weapon"
             }
         ],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Armor": {
-        "type": "",
-        "rarity": "",
+        "type": "Armor +X",
+        "rarity": "varies",
         "attunement": {
             "required": false,
             "who": ""
         },
 
-        "description": [
-            ""
-        ],
+        "description": [],
 
         "effects": [
-            ""
+            "You have a +X bonus to AC while wearing this armor."
         ],
 
-        "abilities": [
-            {
-                "name": "",
-                "action": "",
-                "effect": "",
-                "recharge": ""
-            }
-        ],
+        "abilities": [],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Armor of Gleaming": {
-        "type": "",
-        "rarity": "",
+        "type": "Armor",
+        "rarity": "Common",
         "attunement": {
             "required": false,
             "who": ""
         },
 
-        "description": [
-            ""
-        ],
+        "description": [],
 
         "effects": [
-            ""
+            "This armor never gets dirty."
         ],
 
-        "abilities": [
-            {
-                "name": "",
-                "action": "",
-                "effect": "",
-                "recharge": ""
-            }
-        ],
+        "abilities": [],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Armor of Invulnerability": {
-        "type": "",
-        "rarity": "",
+        "type": "Armor (Heavy)",
+        "rarity": "Legendary",
         "attunement": {
-            "required": false,
+            "required": true,
             "who": ""
         },
 
-        "description": [
-            ""
-        ],
+        "description": [],
 
         "effects": [
-            ""
+            "You have resistance to nonmagical damage"
         ],
 
         "abilities": [
             {
-                "name": "",
-                "action": "",
-                "effect": "",
-                "recharge": ""
+                "name": "Immunity",
+                "action": "Action",
+                "effect": "Make yourself immune to nonmagical damage for 10 minutes",
+                "recharge": "Next dawn."
             }
         ],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Armor of Resistance": {
-        "type": "",
-        "rarity": "",
+        "type": "Armor",
+        "rarity": "Rare",
         "attunement": {
-            "required": false,
+            "required": true,
             "who": ""
         },
 
-        "description": [
-            ""
-        ],
+        "description": [],
 
         "effects": [
-            ""
+            "You have resistance to one type of damage"
         ],
 
-        "abilities": [
-            {
-                "name": "",
-                "action": "",
-                "effect": "",
-                "recharge": ""
-            }
-        ],
+        "abilities": [],
 
         "variants": [
-            ""
+            "Armor of Acid Resistance",
+            "Armor of Cold Resistance",
+            "Armor of Fire Resistance",
+            "Armor of Force Resistance",
+            "Armor of Lightning Resistance",
+            "Armor of Necrotic Resistance",
+            "Armor of Poison Resistance",
+            "Armor of Psychic Resistance",
+            "Armor of Radiant Resistance",
+            "Armor of Thunder Resistance"            
         ],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Armor of Safeguarding": {
-        "type": "",
-        "rarity": "",
+        "type": "Armor (Heavy)",
+        "rarity": "Very Rare",
         "attunement": {
-            "required": false,
+            "required": true,
             "who": ""
         },
 
-        "description": [
-            ""
-        ],
+        "description": [],
 
         "effects": [
-            ""
+            "While wearing this armor, your hit point maximum increases by an amount equal to 10 + your level."
         ],
 
         "abilities": [
             {
-                "name": "",
-                "action": "",
-                "effect": "",
-                "recharge": ""
+                "name": "Cast beacon of hope",
+                "action": "Action",
+                "effect": "Cast the beacon of hope spell with it; the spell has a duration of 1 minute and doesn't require concentration.",
+                "recharge": "Next dawn."
             }
         ],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Arrow-Catching Shield": {
-        "type": "",
-        "rarity": "",
+        "type": "Shield",
+        "rarity": "Rare",
         "attunement": {
-            "required": false,
+            "required": true,
             "who": ""
         },
 
-        "description": [
-            ""
-        ],
+        "description": [],
 
         "effects": [
-            ""
+            "You gain a +2 bonus to AC against ranged attacks"
         ],
 
         "abilities": [
             {
-                "name": "",
-                "action": "",
-                "effect": "",
+                "name": "Become the target",
+                "action": "Reaction",
+                "effect": "Whenever an attacker makes a ranged attack against a target within 5 feet of you, you become the target",
                 "recharge": ""
             }
         ],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Astral Shard": {
-        "type": "",
-        "rarity": "",
+        "type": "Wondrous Item, Spellcasting Focus",
+        "rarity": "Rare",
         "attunement": {
-            "required": false,
-            "who": ""
+            "required": true,
+            "who": "by a Sorcerer"
         },
 
-        "description": [
-            ""
-        ],
+        "description": [],
 
-        "effects": [
-            ""
-        ],
+        "effects": [],
 
         "abilities": [
             {
-                "name": "",
-                "action": "",
-                "effect": "",
+                "name": "Teleport",
+                "action": "After casting a spell using metamagic on it",
+                "effect": "Teleport to an unoccupied space you can see within 30 feet of you.",
                 "recharge": ""
             }
         ],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Astromancy Archive": {
-        "type": "",
-        "rarity": "",
+        "type": "Wondrous Item, Spellcasting Focus",
+        "rarity": "Rare",
         "attunement": {
-            "required": false,
-            "who": ""
+            "required": true,
+            "who": "by a Wizard"
         },
 
         "description": [
-            ""
+            "It contains the following spells: <strong>augury, divination, find the path, foresight, locate creature, and locate object.</strong>"
         ],
 
         "effects": [
-            ""
+            "The archive has 3 charges, and it regains 1d3 expended charges daily at dawn."
         ],
 
         "abilities": [
             {
-                "name": "",
-                "action": "",
-                "effect": "",
+                "name": "Switch prepared spell",
+                "action": "1 charge and 1 minute",
+                "effect": "replace one of your prepared wizard spells with a different spell in the archive.",
+                "recharge": ""
+            },
+            {
+                "name": "Apply Bonus or Penalty",
+                "action": "Reaction",
+                "effect": "When a creature you can see within 30 feet of you makes an attack roll, an ability check, or a saving throw.<br> Roll a d4 and apply the number rolled as a bonus or penalty",
                 "recharge": ""
             }
         ],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Atlas of Endless Horizons": {
-        "type": "",
-        "rarity": "",
+        "type": "Wondrous Item, Spellcasting Focus",
+        "rarity": "Rare",
         "attunement": {
-            "required": false,
-            "who": ""
+            "required": true,
+            "who": "by a Wizard"
         },
 
         "description": [
-            ""
+            "It contains the following spells: <strong> arcane gate, dimension door, gate, misty step, plane shift, teleportation circle, and word of recall.</strong>"
         ],
 
         "effects": [
-            ""
+            "The book has 3 charges, and it regains 1d3 expended charges daily at dawn."
         ],
 
         "abilities": [
             {
-                "name": "",
-                "action": "",
-                "effect": "",
+                "name": "Switch prepared spell",
+                "action": "1 charge and 1 minute",
+                "effect": "replace one of your prepared wizard spells with a different spell in the book.",
+                "recharge": ""
+            },
+            {
+                "name": "Teleport",
+                "action": "Reaction",
+                "effect": "When you are hit by an attack, expend 1 charge to teleport up to 10 feet to an unoccupied space you can see. If your new position is out of range of the attack, it misses you.",
                 "recharge": ""
             }
         ],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
     "Axe of the Dwarvish Lords": {
-        "type": "",
-        "rarity": "",
+        "type": "Weapon (battleaxe)",
+        "rarity": "Artifact",
         "attunement": {
-            "required": false,
+            "required": true,
             "who": ""
         },
 
         "description": [
-            ""
+            "2 minor beneficial properties",
+            "1 major beneficial property",
+            "2 minor detrimental properties"
         ],
 
         "effects": [
-            ""
+            "+3 bonus to attack and damage rolls",
+            "Your Constitution score increases by 2, to a maximum of 20.",
+            "You have advantage on Charisma (Persuasion) checks made to interact with dwarves.",
+            "You have advantage on saving throws against poison, and you have resistance against poison damage.",
+            "You have darkvision out to a range of 60 feet.",
+            "You can speak, read, and write Dwarvish.",
+            "When you hit with a ranged attack (20/60) using this weapon, it deals an extra 1d8 damage or, if the target is a giant, 2d8 damage. Immediately after the attack, the weapon flies back to your hand.",
+            "Extra 14 slashing damage on a 20, Then roll another d20. On a 20, you lop off one of the target's limbs",
+            "<ul><strong>Only if you are a dwarf</strong><li>Immunity to poison damage.</li><li>Darkvision increases by 60 feet.</li></ul>"
         ],
 
         "abilities": [
             {
-                "name": "",
-                "action": "",
-                "effect": "",
-                "recharge": ""
+                "name": "Conjure Earth Elemental",
+                "action": "Action",
+                "effect": "Cast conjure (earth) elemental",
+                "recharge": "Next dawn."
             }
         ],
 
-        "variants": [
-            ""
-        ],
+        "variants": [],
 
         "notes": "Compact summary only. Refer to the official source for the complete item description."
     },
