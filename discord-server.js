@@ -70,7 +70,7 @@ class UpstashSessionStore extends session.Store {
 
         // Discord-gebruiker: 30 dagen
         if (sess?.user) {
-            return 30 * 24 * 60 * 60;
+            return 14 * 24 * 60 * 60;
         }
 
         // Gast of gebruiker die op de keuzepagina staat: 1 minuut
@@ -230,7 +230,8 @@ app.use(session({
     cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        sameSite: 'lax'
+        sameSite: 'lax',
+        maxAge: 14 * 24 * 60 * 60 * 1000
     }
 }));
 

@@ -109,9 +109,10 @@ if (TOOLTIP_ACCESS_ALLOWED) {
 
                         <div class="ability">
                             <strong>${ability.name}</strong><br>
-                            ${ability.action ? "Action: " + ability.action + "<br>" : ""}
+                            ${ability.action ? "Use: " + ability.action + "<br>" : ""}
                             ${ability.effect}<br>
                             ${ability.recharge ? "Recharge: " + ability.recharge : ""}
+                            <br>
                         </div>
 
                     `).join("")}
@@ -207,6 +208,11 @@ if (TOOLTIP_ACCESS_ALLOWED) {
                         const tooltipRect = tooltip.getBoundingClientRect();
 
 
+                        // ==========================================
+                        // TOOLTIP BINNEN HET VENSTER HOUDEN
+                        // ==========================================
+
+                        // Rechts buiten het scherm
                         if (tooltipRect.right > window.innerWidth) {
 
                             tooltip.style.left = "auto";
@@ -217,10 +223,33 @@ if (TOOLTIP_ACCESS_ALLOWED) {
                         }
 
 
+                        // Links buiten het scherm
+                        if (tooltipRect.left < 0) {
+
+                            tooltip.style.left = "100%";
+                            tooltip.style.right = "auto";
+                            tooltip.style.marginLeft = "10px";
+                            tooltip.style.marginRight = "0";
+
+                        }
+
+
+                        // Boven het scherm
+                        if (tooltipRect.top < 0) {
+
+                            const correction = -tooltipRect.top;
+
+                            tooltip.style.transform = `translateY(${correction}px)`;
+
+                        }
+
+
+                        // Onder het scherm
                         if (tooltipRect.bottom > window.innerHeight) {
 
-                            tooltip.style.top = "auto";
-                            tooltip.style.bottom = "0";
+                            const correction = window.innerHeight - tooltipRect.bottom;
+
+                            tooltip.style.transform = `translateY(${correction}px)`;
 
                         }
 
@@ -242,6 +271,7 @@ if (TOOLTIP_ACCESS_ALLOWED) {
                         tooltip.style.bottom = "";
                         tooltip.style.marginLeft = "";
                         tooltip.style.marginRight = "";
+                        tooltip.style.transform = "";
 
                     });
 
